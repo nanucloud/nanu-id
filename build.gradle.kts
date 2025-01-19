@@ -36,6 +36,12 @@ dependencies {
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testImplementation("org.springframework.security:spring-security-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    implementation(kotlin("stdlib-jdk8"))
+	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+	implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
+	implementation("jakarta.servlet:jakarta.servlet-api:6.0.0")
+	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("io.jsonwebtoken:jjwt:0.9.1")
 }
 
 kotlin {
