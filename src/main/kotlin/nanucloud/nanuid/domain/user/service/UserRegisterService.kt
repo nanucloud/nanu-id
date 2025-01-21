@@ -4,20 +4,27 @@ import jakarta.transaction.Transactional
 import nanucloud.nanuid.domain.user.repository.UserRepository
 import nanucloud.nanuid.domain.user.domain.User
 import nanucloud.nanuid.domain.user.dto.request.UserRegisterRequest
+import nanucloud.nanuid.domain.user.exception.UserAlreadyExistsException
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
 class UserRegisterService @Autowired constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val passwordEncoder: PasswordEncoder
 ) {
 
     @Transactional
     fun execute(userSignUpRequest: UserRegisterRequest): User {
+        userRepository.findByEmail(userSignUpRequest.email).ifPresent {
+            throw UserAlreadyExistsException
+        }
+
         val user = User(
             deviceToken = userSignUpRequest.deviceToken,
-            pin = userSignUpRequest.pin,
-            password = userSignUpRequest.password,
+            pin = passwordEncoder.encode(userSignUpRequest.pin),
+            password = passwordEncoder.encode(userSignUpRequest.password),
             name = userSignUpRequest.name,
             email = userSignUpRequest.email,
             birthDate = userSignUpRequest.birthDate,
