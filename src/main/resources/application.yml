@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:dev_nanuid}?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:dev_nanuid}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: ${MYSQL_USERNAME:root}
     password: ${MYSQL_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -18,12 +18,12 @@ spring:
         use_sql_comments: true
     show-sql: true
 
-  jwt:
-    jwtSecret: your-secret-key
-    accessExp: 3600
-    refreshExp: 7200
-    header: Authorization
-    prefix: Bearer
+  jwt: # spring: 아래가 아닌 최상위 레벨로 이동
+    secret: "xjS8V2k9P4m7tQ3wL6nR1cY5uA2zE8hB4dG9fM3vN7kX"  # 최소 32바이트 이상의 복잡한 키
+    access-exp: 3600  # kebab-case로 변경
+    refresh-exp: 7200  # kebab-case로 변경
+    header: "Authorization"
+    prefix: "Bearer"
 
   redis:
     host: ${REDIS_HOST:localhost}
@@ -37,6 +37,8 @@ spring:
         max-idle: 8
         min-idle: 0
         max-wait: -1ms
+recaptcha:
+  secret-key: ${GOOGLE_GCP_SECRET_KEY}
 
 logging:
   level:
