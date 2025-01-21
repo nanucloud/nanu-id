@@ -1,9 +1,9 @@
 package nanucloud.nanuid.domain.auth.domain
 
-enum class DeviceType {
-    WEB_UNKNOWN,
-    ANDROID,
-    IOS,
-    WINDOWS,
-    MAC,
+enum class DeviceType(val type: String) {
+    WEB_UNKNOWN("WEB_UNKNOWN"),
+    ANDROID("ANDROID"),
+    IOS("IOS"),
+    WINDOWS("WINDOWS"),
+    MAC("MAC")
 }
