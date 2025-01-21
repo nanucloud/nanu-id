@@ -1,11 +1,6 @@
 package nanucloud.nanuid.domain.auth.domain
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import java.util.UUID
 import java.time.LocalDateTime
 
@@ -13,9 +8,11 @@ import java.time.LocalDateTime
 @Table(name = "tbl_refresh_token")
 data class RefreshToken(
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "refresh_token_id", nullable = false, unique = true)
-    val refreshTokenId: UUID = UUID.randomUUID(),
+    val refreshTokenId: String,
+
+    @Column(name = "refresh_token", nullable = false, unique = true)
+    val refreshToken: String,
 
     @Column(name = "account_id", nullable = false)
     val accountId: String,
@@ -24,8 +21,13 @@ data class RefreshToken(
     val applicationId: String,
 
     @Column(name = "device_type", nullable = false)
+    @Enumerated(EnumType.STRING)
     val deviceType: DeviceType,
 
     @Column(name = "auth_time", nullable = false)
-    val authTime: LocalDateTime
+    val authTime: LocalDateTime,
+
+    @Version
+    @Column(name = "version")
+    val version: Long = 0
 )
