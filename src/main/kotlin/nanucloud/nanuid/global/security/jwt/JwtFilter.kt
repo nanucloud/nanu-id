@@ -24,11 +24,15 @@ class JwtFilter (
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        val bearer = jwtTokenProvider.resolveToken(request)
+        try {
+            val bearer = jwtTokenProvider.resolveToken(request)
 
-        if (bearer != null && jwtTokenProvider.validToken(bearer)) {
-            val authentication: Authentication = jwtTokenProvider.authentication(bearer)
-            SecurityContextHolder.getContext().authentication = authentication
+            if (!bearer.isNullOrBlank() && jwtTokenProvider.validToken(bearer)) {
+                val authentication: Authentication = jwtTokenProvider.authentication(bearer)
+                SecurityContextHolder.getContext().authentication = authentication
+            }
+        } catch (e: Exception) {
+            SecurityContextHolder.clearContext()
         }
 
         filterChain.doFilter(request, response)

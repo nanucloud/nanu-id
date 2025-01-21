@@ -1,6 +1,6 @@
 package nanucloud.nanuid.global.security.jwt.dto
 
 data class TokenResponse(
-    private val accessToken: String,
-    private val refreshToken: String
+    val access_token: String,
+    val refresh_token: String
 )

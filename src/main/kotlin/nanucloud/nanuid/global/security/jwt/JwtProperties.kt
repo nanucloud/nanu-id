@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 @ConfigurationPropertiesScan
 @ConfigurationProperties(prefix = "spring.jwt")
 data class JwtProperties(
-    val jwtSecret: String,
+    val secret: String,
     val accessExp: Long,
     val refreshExp: Long,
     val header: String,
