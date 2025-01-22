@@ -17,7 +17,7 @@ class UserProfileService @Autowired constructor(
 ) {
 
     @Transactional
-    fun getUserProfile(): UserProfileResponse {
+    fun execute(): UserProfileResponse {
         val user = userFacade.getCurrentUser()
         return UserProfileResponse(
             email = user.email,

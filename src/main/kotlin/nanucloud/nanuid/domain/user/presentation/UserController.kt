@@ -31,6 +31,6 @@ class UserController (
 
     @GetMapping("/me")
     fun getUserProfile(): UserProfileResponse {
-        return userProfileService.getUserProfile()
+        return userProfileService.execute()
     }
 }
