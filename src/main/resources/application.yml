@@ -18,10 +18,10 @@ spring:
         use_sql_comments: true
     show-sql: true
 
-  jwt: # spring: 아래가 아닌 최상위 레벨로 이동
-    secret: "xjS8V2k9P4m7tQ3wL6nR1cY5uA2zE8hB4dG9fM3vN7kX"  # 최소 32바이트 이상의 복잡한 키
-    access-exp: 3600  # kebab-case로 변경
-    refresh-exp: 7200  # kebab-case로 변경
+  jwt:
+    secret: "xjS8V2k9P4m7tQ3wL6nR1cY5uA2zE8hB4dG9fM3vN7kX"
+    access-exp: 3600
+    refresh-exp: 7200
     header: "Authorization"
     prefix: "Bearer"
 
