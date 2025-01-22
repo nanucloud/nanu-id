@@ -104,7 +104,6 @@ class JwtProvider(
     }
 
     fun validateRefreshToken(accountId: String, refreshToken: String): Boolean {
-
         val storedRefreshToken = refreshTokenRepository.findById(refreshToken).orElse(null)
         return storedRefreshToken != null && storedRefreshToken.refreshTokenId == refreshToken
     }

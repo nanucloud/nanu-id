@@ -18,6 +18,14 @@ class AuthDetails(private val user: User) : UserDetails {
         return user.name
     }
 
+    fun getUserId(): String {
+        return user.userId.toString()
+    }
+
+    fun getUser(): User {
+        return user
+    }
+
     override fun isAccountNonExpired(): Boolean {
         return false
     }
