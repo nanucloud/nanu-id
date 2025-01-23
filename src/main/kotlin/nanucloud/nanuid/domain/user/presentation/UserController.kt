@@ -7,6 +7,7 @@ import nanucloud.nanuid.domain.user.dto.response.UserProfileResponse
 import nanucloud.nanuid.domain.user.service.UserPrimaryLoginService
 import nanucloud.nanuid.domain.user.service.UserProfileService
 import nanucloud.nanuid.domain.user.service.UserRegisterService
+import nanucloud.nanuid.global.security.auth.RequiredAuthScope
 import nanucloud.nanuid.global.security.jwt.dto.TokenResponse
 import org.springframework.web.bind.annotation.*
 import java.util.Optional
@@ -29,7 +30,8 @@ class UserController (
         return userPrimaryLoginService.execute(userLoginRequest);
     }
 
-    @GetMapping("/me")
+    @RequiredAuthScope(["FULL_ACCESS"])
+    @GetMapping("/userinfo")
     fun getUserProfile(): UserProfileResponse {
         return userProfileService.execute()
     }

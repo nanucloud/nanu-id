@@ -1,6 +1,7 @@
 package nanucloud.nanuid.domain.user.service
 
 import jakarta.transaction.Transactional
+import nanucloud.nanuid.domain.auth.domain.AuthScope
 import nanucloud.nanuid.domain.auth.domain.DeviceType
 import nanucloud.nanuid.domain.user.client.RecaptchaClient
 import nanucloud.nanuid.domain.user.dto.request.UserLoginRequest
@@ -51,7 +52,7 @@ class UserPrimaryLoginService(
         }
 
         val requestDeviceType = userLoginRequest.deviceType ?: DeviceType.WEB_UNKNOWN
-        return jwtProvider.generateToken(user.userId.toString(), "DASHBOARD", requestDeviceType)
+        return jwtProvider.generateToken(user.userId.toString(), "DASHBOARD", requestDeviceType, setOf(AuthScope.FULL_ACCESS))
     }
 
     private fun validateRecaptchaToken(recaptchaToken: String) {
