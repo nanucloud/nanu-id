@@ -22,6 +22,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 @EnableWebSecurity
 class SecurityConfig(
     private val jwtProvider: JwtProvider,
+    private val jwtFilter: JwtFilter,
     private val objectMapper: ObjectMapper
 ) {
 
@@ -38,8 +39,7 @@ class SecurityConfig(
                     .requestMatchers("/auth/update", "/auth/delete").authenticated()
                     .anyRequest().authenticated()
             }
-            .addFilterBefore(JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter::class.java)
-            .addFilterBefore(ExceptionFilter(objectMapper), JwtFilter::class.java)
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)
         return http.build()
     }
 

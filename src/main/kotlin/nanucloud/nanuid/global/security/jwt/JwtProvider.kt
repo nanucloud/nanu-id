@@ -1,6 +1,7 @@
 package nanucloud.nanuid.global.security.jwt
 
 import lombok.RequiredArgsConstructor
+import org.springframework.beans.factory.annotation.Autowired
 import nanucloud.nanuid.domain.auth.domain.DeviceType
 import nanucloud.nanuid.domain.auth.domain.RefreshToken
 import nanucloud.nanuid.domain.auth.repository.RefreshTokenRepository
@@ -11,6 +12,7 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.transaction.Transactional
+import nanucloud.nanuid.domain.auth.domain.AuthScope
 import nanucloud.nanuid.global.security.jwt.exception.ExpiredTokenException
 import nanucloud.nanuid.global.security.jwt.exception.InvalidTokenException
 import org.springframework.security.core.Authentication
@@ -28,6 +30,8 @@ class JwtProvider(
     private val authDetailsService: AuthDetailsService,
     private val refreshTokenRepository: RefreshTokenRepository
 ) {
+    @Autowired
+    private lateinit var request: HttpServletRequest
 
     companion object {
         const val ACCESS_KEY = "access_token"
@@ -35,9 +39,9 @@ class JwtProvider(
     }
 
     @Transactional
-    fun generateToken(accountId: String, applicationId: String, deviceType: DeviceType): TokenResponse {
-        val accessToken = generateJwtToken(accountId, ACCESS_KEY, jwtProperties.accessExp)
-        val refreshToken = generateJwtToken(accountId, REFRESH_KEY, jwtProperties.refreshExp)
+    fun generateToken(accountId: String, applicationId: String, deviceType: DeviceType, authScope:  Set<AuthScope>): TokenResponse {
+        val accessToken = generateJwtToken(accountId, ACCESS_KEY, jwtProperties.accessExp, authScope)
+        val refreshToken = generateJwtToken(accountId, REFRESH_KEY, jwtProperties.refreshExp, authScope)
         val authTime = LocalDateTime.now()
 
         refreshTokenRepository.save(
@@ -64,19 +68,29 @@ class JwtProvider(
                 .setSigningKey(signingKey)
                 .build()
                 .parseClaimsJws(token)
+
+            val authScopes: Set<AuthScope> = getAuthScopeFromToken(token)
+            request.setAttribute("authScopes", authScopes)
+
             true
         } catch (e: Exception) {
             false
         }
     }
 
-    private fun generateJwtToken(id: String, type: String, exp: Long): String {
+    private fun calculateAuthScopeBitmask(scopes: Set<AuthScope>): Int {
+        return scopes.fold(0) { acc, scope -> acc or scope.bit }
+    }
+
+    private fun generateJwtToken(id: String, type: String, exp: Long,authScopes: Set<AuthScope>): String {
         val signingKey = Keys.hmacShaKeyFor(
             jwtProperties.secret.toByteArray(StandardCharsets.UTF_8)
         )
+        val bitmaskAuthScope = calculateAuthScopeBitmask(authScopes)
         return Jwts.builder()
             .setSubject(id)
             .setHeaderParam("typ", type)
+            .claim("authScope", bitmaskAuthScope)
             .signWith(signingKey, SignatureAlgorithm.HS256)
             .setExpiration(Date(System.currentTimeMillis() + exp * 1000))
             .setIssuedAt(Date())
@@ -91,7 +105,7 @@ class JwtProvider(
         } else null
     }
 
-    fun authentication(token: String): Authentication {
+    fun authentication(token:String): Authentication {
         val body = getJws(token).body
         if (!isNotRefreshToken(token)) throw InvalidTokenException
 
@@ -127,5 +141,11 @@ class JwtProvider(
 
     private fun getDetails(body: Claims): UserDetails {
         return authDetailsService.loadUserByUsername(body.subject)
+    }
+
+    fun getAuthScopeFromToken(token: String): Set<AuthScope> {
+        val body = getJws(token).body
+        val bitmask = body["authScope"] as? Int ?: 0
+        return AuthScope.values().filter { scope -> (bitmask and scope.bit) != 0 }.toSet()
     }
 }
