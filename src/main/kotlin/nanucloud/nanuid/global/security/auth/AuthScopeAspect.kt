@@ -30,6 +30,6 @@ class AuthScopeAspect {
             throw NoPermissionException
         }
 
-        return joinPoint.proceed() // 원래 메서드를 실행
+        return joinPoint.proceed()
     }
 }

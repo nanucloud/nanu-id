@@ -1,7 +1,7 @@
 package nanucloud.nanuid.domain.auth.service
 
 import nanucloud.nanuid.domain.auth.dto.response.RefreshTokenResponse
-import nanucloud.nanuid.domain.auth.repository.RefreshTokenRepository
+import nanucloud.nanuid.domain.auth.persistence.repository.RefreshTokenRepository
 import nanucloud.nanuid.domain.user.facade.UserFacade
 import org.springframework.stereotype.Service
 
@@ -12,11 +12,12 @@ class AuthReadService(
 ) {
     fun execute():List<RefreshTokenResponse> {
         val userId = userFacade.getUserId()
-        val userRefreshTokens =  refreshTokenRepository.findByAccountId(userId)
-
+        println(userId)
+        val userRefreshTokens =  refreshTokenRepository.findByUserId(userId)
+        println(userRefreshTokens)
         return userRefreshTokens.map {
             RefreshTokenResponse(
-                refreshTokenId = it.refreshTokenId,
+                refreshTokenId = it.id.toString(),
                 applicationId = it.applicationId,
                 deviceType = it.deviceType,
                 authTime = it.authTime
