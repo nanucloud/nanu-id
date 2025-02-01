@@ -1,10 +1,11 @@
 package nanucloud.nanuid.domain.user.service
 
 import jakarta.transaction.Transactional
-import nanucloud.nanuid.domain.user.repository.UserRepository
+import nanucloud.nanuid.domain.user.persistence.repository.UserRepository
 import nanucloud.nanuid.domain.user.domain.User
-import nanucloud.nanuid.domain.user.dto.request.UserRegisterRequest
+import nanucloud.nanuid.domain.user.presentation.dto.request.UserRegisterRequest
 import nanucloud.nanuid.domain.user.exception.UserAlreadyExistsException
+import nanucloud.nanuid.domain.user.mapper.UserMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -12,7 +13,8 @@ import org.springframework.stereotype.Service
 @Service
 class UserRegisterService @Autowired constructor(
     private val userRepository: UserRepository,
-    private val passwordEncoder: PasswordEncoder
+    private val passwordEncoder: PasswordEncoder,
+    private val userMapper: UserMapper
 ) {
 
     @Transactional
@@ -31,6 +33,7 @@ class UserRegisterService @Autowired constructor(
             isEnabled = true,
             isAccountLocked = false
         )
-        return userRepository.save(user)
+        val userEntity =  userRepository.save(userMapper.toEntity(user))
+        return userMapper.toDomain(userEntity)
     }
 }
