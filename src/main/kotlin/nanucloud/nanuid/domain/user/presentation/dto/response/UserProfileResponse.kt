@@ -1,4 +1,4 @@
-package nanucloud.nanuid.domain.user.dto.response
+package nanucloud.nanuid.domain.user.presentation.dto.response
 
 data class UserProfileResponse(
     val email : String,

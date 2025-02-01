@@ -1,4 +1,4 @@
-package nanucloud.nanuid.domain.user.dto.request
+package nanucloud.nanuid.domain.user.presentation.dto.request
 
 import nanucloud.nanuid.domain.auth.domain.DeviceType
 
