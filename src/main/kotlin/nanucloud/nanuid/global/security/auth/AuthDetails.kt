@@ -1,13 +1,14 @@
 package org.example.pmanchu.global.security.auth
 
 import nanucloud.nanuid.domain.user.domain.User
+import nanucloud.nanuid.domain.user.entity.UserJpaEntity
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
 class AuthDetails(private val user: User) : UserDetails {
 
     override fun getAuthorities(): Collection<GrantedAuthority> {
-        return listOf(GrantedAuthority { "ROLE_USER" })
+        return listOf(GrantedAuthority { "USER" })
     }
 
     override fun getPassword(): String {

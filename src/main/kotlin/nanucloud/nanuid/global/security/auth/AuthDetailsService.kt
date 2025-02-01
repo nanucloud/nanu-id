@@ -1,6 +1,6 @@
 package nanucloud.nanuid.global.security.auth
 
-import nanucloud.nanuid.domain.user.repository.UserRepository
+import nanucloud.nanuid.domain.user.persistence.repository.UserRepository
 import nanucloud.nanuid.domain.user.domain.User
 import nanucloud.nanuid.domain.user.facade.UserFacade
 import org.example.pmanchu.global.security.auth.AuthDetails
