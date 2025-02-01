@@ -35,7 +35,6 @@ class JwtFilter (
         } catch (e: Exception) {
             SecurityContextHolder.clearContext()
         }
-
         filterChain.doFilter(request, response)
     }
 }
