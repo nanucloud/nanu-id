@@ -4,12 +4,12 @@ import jakarta.transaction.Transactional
 import nanucloud.nanuid.domain.auth.domain.AuthScope
 import nanucloud.nanuid.domain.auth.domain.DeviceType
 import nanucloud.nanuid.domain.user.client.RecaptchaClient
-import nanucloud.nanuid.domain.user.dto.request.UserLoginRequest
+import nanucloud.nanuid.domain.user.presentation.dto.request.UserLoginRequest
 import nanucloud.nanuid.domain.user.exception.InvalidRecaptchaTokenException
 import nanucloud.nanuid.domain.user.exception.UserAccountLockedException
 import nanucloud.nanuid.domain.user.exception.UserAccountSuspendedException
 import nanucloud.nanuid.domain.user.exception.UserNotFoundException
-import nanucloud.nanuid.domain.user.repository.UserRepository
+import nanucloud.nanuid.domain.user.persistence.repository.UserRepository
 import nanucloud.nanuid.global.security.jwt.JwtProvider
 import nanucloud.nanuid.global.security.jwt.dto.TokenResponse
 import org.springframework.beans.factory.annotation.Value
@@ -52,7 +52,7 @@ class UserPrimaryLoginService(
         }
 
         val requestDeviceType = userLoginRequest.deviceType ?: DeviceType.WEB_UNKNOWN
-        return jwtProvider.generateToken(user.userId.toString(), "DASHBOARD", requestDeviceType, setOf(AuthScope.FULL_ACCESS))
+        return jwtProvider.generateToken(user.id.toString(), "DASHBOARD", requestDeviceType, setOf(AuthScope.FULL_ACCESS))
     }
 
     private fun validateRecaptchaToken(recaptchaToken: String) {
