@@ -1,6 +1,6 @@
 package nanucloud.nanuid.domain.user.client
 
-import nanucloud.nanuid.domain.user.dto.response.RecaptchaResponse
+import nanucloud.nanuid.domain.user.presentation.dto.response.RecaptchaResponse
 import nanucloud.nanuid.global.config.FeignConfig
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.PostMapping
