@@ -15,6 +15,7 @@ import nanucloud.nanuid.global.security.jwt.dto.TokenResponse
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class UserPrimaryLoginService(
@@ -52,7 +53,7 @@ class UserPrimaryLoginService(
         }
 
         val requestDeviceType = userLoginRequest.deviceType ?: DeviceType.WEB_UNKNOWN
-        return jwtProvider.generateToken(user.id.toString(), "DASHBOARD", requestDeviceType, setOf(AuthScope.FULL_ACCESS))
+        return jwtProvider.generateToken(user.id.toString(),"00000000-0000-0000-0000-000000000001", requestDeviceType, setOf(AuthScope.FULL_ACCESS))
     }
 
     private fun validateRecaptchaToken(recaptchaToken: String) {

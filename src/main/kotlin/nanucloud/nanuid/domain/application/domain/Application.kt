@@ -4,7 +4,7 @@ import java.util.UUID
 
 data class Application(
     val applicationId: UUID,
-    val ownerId: UUID,
+    val ownerId: String,
     val name: String,
     val description: String,
     val isPublic: Boolean,

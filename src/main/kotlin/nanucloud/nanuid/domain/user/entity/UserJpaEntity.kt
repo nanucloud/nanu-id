@@ -1,10 +1,9 @@
 package nanucloud.nanuid.domain.user.entity
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.Table
-import nanucloud.nanuid.global.security.base.BaseUUIDEntity
+import jakarta.persistence.*
+import nanucloud.nanuid.domain.application.entity.ApplicationJpaEntity
+import nanucloud.nanuid.domain.auth.entity.RefreshTokenJpaEntity
+import nanucloud.nanuid.global.base.BaseUUIDEntity
 import java.util.*
 
 @Entity
@@ -12,7 +11,7 @@ import java.util.*
 class UserJpaEntity(
     id: UUID?,
 
-    @Column(name = "device_token", nullable = false)
+    @Column(name = "device_token", nullable = false, unique = true)
     val deviceToken: String?,
 
     @Column(name = "security_pin", nullable = false)
@@ -24,7 +23,7 @@ class UserJpaEntity(
     @Column(name = "name", nullable = false)
     val name: String,
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     val email: String,
 
     @Column(name = "birth_date", nullable = false)
@@ -34,5 +33,5 @@ class UserJpaEntity(
     val isEnabled: Boolean,
 
     @Column(name = "account_locked", nullable = false)
-    val isAccountLocked: Boolean
+    val isAccountLocked: Boolean,
 ) : BaseUUIDEntity(id)

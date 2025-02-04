@@ -1,4 +1,4 @@
-package nanucloud.nanuid.global.security.base
+package nanucloud.nanuid.global.base
 
 import jakarta.persistence.Column
 import jakarta.persistence.Id
@@ -12,7 +12,7 @@ abstract class BaseUUIDEntity(
     @UuidGenerator
     @Column(
         columnDefinition = "BINARY(16)",
-        nullable = true,
+        nullable = false,
         updatable = false
     )
     val id: UUID?

@@ -2,8 +2,9 @@ package nanucloud.nanuid.domain.application.mapper
 
 import nanucloud.nanuid.domain.application.domain.Application
 import nanucloud.nanuid.domain.application.entity.ApplicationJpaEntity
-import nanucloud.nanuid.global.security.base.CommonEntityMapper
+import nanucloud.nanuid.global.base.CommonEntityMapper
 import org.springframework.stereotype.Component
+import java.util.*
 
 @Component
 class ApplicationMapper : CommonEntityMapper<ApplicationJpaEntity, Application> {

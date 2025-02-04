@@ -2,7 +2,7 @@ package nanucloud.nanuid.domain.auth.mapper
 
 import nanucloud.nanuid.domain.auth.domain.RefreshToken
 import nanucloud.nanuid.domain.auth.entity.RefreshTokenJpaEntity
-import nanucloud.nanuid.global.security.base.CommonEntityMapper
+import nanucloud.nanuid.global.base.CommonEntityMapper
 import org.springframework.stereotype.Component
 
 @Component

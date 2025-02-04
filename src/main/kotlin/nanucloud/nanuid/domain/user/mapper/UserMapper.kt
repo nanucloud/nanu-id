@@ -2,11 +2,11 @@ package nanucloud.nanuid.domain.user.mapper
 
 import nanucloud.nanuid.domain.user.domain.User
 import nanucloud.nanuid.domain.user.entity.UserJpaEntity
-import nanucloud.nanuid.global.security.base.CommonEntityMapper
+import nanucloud.nanuid.global.base.CommonEntityMapper
 import org.springframework.stereotype.Component
 
 @Component
-class UserMapper:CommonEntityMapper<UserJpaEntity,User> {
+class UserMapper: CommonEntityMapper<UserJpaEntity, User> {
 
     override fun toEntity(domain: User): UserJpaEntity {
         return UserJpaEntity(
