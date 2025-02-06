@@ -35,7 +35,7 @@ class ApplicationInitService(
             """
             )
                 .setParameter("id", defaultAppId)
-                .setParameter("ownerId", UUID.randomUUID())
+                .setParameter("ownerId", UUID.randomUUID().toString())
                 .setParameter("name", "NANU ID DASHBOARD")
                 .setParameter("description", "default application")
                 .setParameter("isPublic", true)

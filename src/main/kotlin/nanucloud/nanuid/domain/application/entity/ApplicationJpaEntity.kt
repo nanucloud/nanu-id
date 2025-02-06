@@ -8,9 +8,9 @@ import java.util.*
 @Entity
 @Table(name = "tbl_application")
 class ApplicationJpaEntity(
-    id: UUID,
+    id: UUID?,
 
-    @Column(name = "owner_id", nullable = false, columnDefinition = "BINARY(16)")
+    @Column(name = "owner_id", nullable = false)
     val ownerId: String,
 
     @Column(name = "name", nullable = false, length = 255)

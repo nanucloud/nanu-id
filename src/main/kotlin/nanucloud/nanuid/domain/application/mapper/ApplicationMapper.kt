@@ -12,7 +12,7 @@ class ApplicationMapper : CommonEntityMapper<ApplicationJpaEntity, Application> 
         return domain.run {
             ApplicationJpaEntity(
                 id = domain.applicationId,
-                ownerId = domain.ownerId,
+                ownerId = domain.ownerId.toString(),
                 name = domain.name,
                 description = domain.description,
                 isPublic = domain.isPublic,
@@ -24,8 +24,8 @@ class ApplicationMapper : CommonEntityMapper<ApplicationJpaEntity, Application> 
     override fun toDomain(entity: ApplicationJpaEntity): Application {
         return entity.run {
             Application(
-                applicationId = entity.id!!,
-                ownerId = entity.ownerId,
+                applicationId = entity.id,
+                ownerId = UUID.fromString(entity.ownerId),
                 name = entity.name,
                 description = entity.description,
                 isPublic = entity.isPublic,
