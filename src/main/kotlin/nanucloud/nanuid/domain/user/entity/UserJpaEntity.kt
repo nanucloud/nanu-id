@@ -11,7 +11,7 @@ import java.util.*
 class UserJpaEntity(
     id: UUID?,
 
-    @Column(name = "device_token", nullable = false, unique = true)
+    @Column(name = "device_token", nullable = false)
     val deviceToken: String?,
 
     @Column(name = "security_pin", nullable = false)

@@ -19,7 +19,10 @@ class RefreshTokenJpaEntity(
     @JoinColumn(name = "application", nullable = false)
     val applicationId: String,
 
-    @JoinColumn(name = "user_id", nullable = false)
+    @Column(name = "application_name", nullable = false)
+    val applicationName: String,
+
+    @Column(name = "user_id", nullable = false)
     val userId: String,
 
     @Column(name = "device_type", nullable = false)
@@ -27,6 +30,9 @@ class RefreshTokenJpaEntity(
     val deviceType: DeviceType,
 
     @Column(name = "auth_time", nullable = false)
-    val authTime: LocalDateTime
+    val authTime: LocalDateTime,
+
+    @Column(name = "ip", nullable = false)
+    val ip: String,
 ) : BaseUUIDEntity(id)
 

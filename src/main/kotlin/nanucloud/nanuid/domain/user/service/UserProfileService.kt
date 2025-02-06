@@ -21,7 +21,8 @@ class UserProfileService @Autowired constructor(
         val user = userFacade.getCurrentUser()
         return UserProfileResponse(
             email = user.email,
-            name = user.name
+            name = user.name,
+            accountStatus = user.isEnabled
         )
     }
 }

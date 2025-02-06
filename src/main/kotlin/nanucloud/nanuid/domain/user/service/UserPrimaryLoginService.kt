@@ -53,7 +53,7 @@ class UserPrimaryLoginService(
         }
 
         val requestDeviceType = userLoginRequest.deviceType ?: DeviceType.WEB_UNKNOWN
-        return jwtProvider.generateToken(user.id.toString(),"00000000-0000-0000-0000-000000000001", requestDeviceType, setOf(AuthScope.FULL_ACCESS))
+        return jwtProvider.generateToken(user.id.toString(),"00000000-0000-0000-0000-000000000001","NANU_ID DashBoard Web Service", requestDeviceType, setOf(AuthScope.FULL_ACCESS))
     }
 
     private fun validateRecaptchaToken(recaptchaToken: String) {

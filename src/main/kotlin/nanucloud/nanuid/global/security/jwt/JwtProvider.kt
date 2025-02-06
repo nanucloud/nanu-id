@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.transaction.Transactional
 import nanucloud.nanuid.domain.auth.domain.AuthScope
 import nanucloud.nanuid.domain.auth.mapper.RefreshTokenMapper
+import nanucloud.nanuid.global.base.IpUtils
 import nanucloud.nanuid.global.security.jwt.exception.ExpiredTokenException
 import nanucloud.nanuid.global.security.jwt.exception.InvalidTokenException
 import org.springframework.security.core.Authentication
@@ -30,7 +31,8 @@ class JwtProvider(
     private val jwtProperties: JwtProperties,
     private val authDetailsService: AuthDetailsService,
     private val refreshTokenRepository: RefreshTokenRepository,
-    private val refreshTokenMapper: RefreshTokenMapper
+    private val refreshTokenMapper: RefreshTokenMapper,
+    private val ipUtils: IpUtils
 ) {
     @Autowired
     private lateinit var request: HttpServletRequest
@@ -41,17 +43,20 @@ class JwtProvider(
     }
 
     @Transactional
-    fun generateToken(userId: String, applicationId: String, deviceType: DeviceType, authScope:  Set<AuthScope>): TokenResponse {
+    fun generateToken(userId: String, applicationId: String,applicationName: String, deviceType: DeviceType, authScope:  Set<AuthScope>): TokenResponse {
         val accessToken = generateJwtToken(userId, ACCESS_KEY, jwtProperties.accessExp, authScope)
         val refreshToken = generateJwtToken(userId, REFRESH_KEY, jwtProperties.refreshExp, authScope)
         val authTime = LocalDateTime.now()
+        val userIp = ipUtils.getClientIp(request)
 
         val refreshTokenEntity = RefreshToken(
             refreshToken = refreshToken,
             userId = userId,
             applicationId = applicationId,
+            applicationName = applicationName,
             deviceType = deviceType,
-            authTime = authTime
+            authTime = authTime,
+            ip = userIp,
         )
         refreshTokenRepository.save(refreshTokenMapper.toEntity(refreshTokenEntity))
 

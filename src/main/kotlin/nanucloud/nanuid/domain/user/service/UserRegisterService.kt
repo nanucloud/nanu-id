@@ -33,7 +33,7 @@ class UserRegisterService @Autowired constructor(
             isEnabled = true,
             isAccountLocked = false
         )
-        val userEntity =  userRepository.save(userMapper.toEntity(user))
+        val userEntity = userRepository.save(userMapper.toEntity(user))
         return userMapper.toDomain(userEntity)
     }
 }

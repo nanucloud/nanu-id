@@ -8,6 +8,8 @@ data class RefreshToken(
     val refreshToken: String,
     val userId: String,
     val applicationId: String,
+    val applicationName: String,
     val deviceType: DeviceType,
-    val authTime: LocalDateTime
+    val authTime: LocalDateTime,
+    val ip: String
 )

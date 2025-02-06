@@ -14,8 +14,10 @@ class RefreshTokenMapper : CommonEntityMapper<RefreshTokenJpaEntity, RefreshToke
                 refreshToken = domain.refreshToken,
                 userId = domain.userId,
                 applicationId = domain.applicationId,
+                applicationName = domain.applicationName,
                 deviceType = domain.deviceType,
-                authTime = domain.authTime
+                authTime = domain.authTime,
+                ip = domain.ip
             )
         }
     }
@@ -27,8 +29,10 @@ class RefreshTokenMapper : CommonEntityMapper<RefreshTokenJpaEntity, RefreshToke
                 refreshToken = entity.refreshToken,
                 userId = entity.userId,
                 applicationId = entity.applicationId,
+                applicationName = entity.applicationName,
                 deviceType = entity.deviceType,
-                authTime = entity.authTime
+                authTime = entity.authTime,
+                ip = entity.ip
             )
         }
     }
