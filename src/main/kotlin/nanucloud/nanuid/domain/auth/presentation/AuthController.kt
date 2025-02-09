@@ -1,6 +1,6 @@
 package nanucloud.nanuid.domain.auth.presentation
 
-import nanucloud.nanuid.domain.auth.dto.response.RefreshTokenResponse
+import nanucloud.nanuid.domain.auth.presentation.response.RefreshTokenResponse
 import nanucloud.nanuid.domain.auth.service.AuthReadService
 import nanucloud.nanuid.global.security.auth.RequiredAuthScope
 import org.springframework.data.domain.Page

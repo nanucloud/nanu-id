@@ -1,4 +1,4 @@
-package nanucloud.nanuid.domain.auth.dto.response
+package nanucloud.nanuid.domain.auth.presentation.response
 
 import nanucloud.nanuid.domain.auth.domain.DeviceType
 import java.time.LocalDateTime

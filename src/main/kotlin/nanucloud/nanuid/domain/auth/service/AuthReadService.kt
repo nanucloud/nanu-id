@@ -1,6 +1,6 @@
 package nanucloud.nanuid.domain.auth.service
 
-import nanucloud.nanuid.domain.auth.dto.response.RefreshTokenResponse
+import nanucloud.nanuid.domain.auth.presentation.response.RefreshTokenResponse
 import nanucloud.nanuid.domain.auth.persistence.repository.RefreshTokenJpaRepository
 import nanucloud.nanuid.domain.user.facade.UserFacade
 import org.springframework.data.domain.Page
