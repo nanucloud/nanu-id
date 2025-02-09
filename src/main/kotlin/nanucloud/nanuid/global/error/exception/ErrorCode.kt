@@ -13,5 +13,7 @@ enum class ErrorCode (
     USER_ACCOUNT_SUSPENDED(403,"Account suspended"),
     ALREADY_EXISTING_USER(409,"Already existing user"),
     NO_PERMISSION(403,"No permission to access"),
-    INTERNAL_SERVER_ERROR(500,"Server error occurred")
+    INTERNAL_SERVER_ERROR(500,"Server error occurred"),
+    APPLICATION_NOT_FOUND(404,"No application found"),
+    URI_NOT_ACCEPTED(418,"Uri is not authorized")
 }

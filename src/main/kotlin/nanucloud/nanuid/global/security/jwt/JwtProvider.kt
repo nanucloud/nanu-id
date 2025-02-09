@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor
 import org.springframework.beans.factory.annotation.Autowired
 import nanucloud.nanuid.domain.auth.domain.DeviceType
 import nanucloud.nanuid.domain.auth.domain.RefreshToken
-import nanucloud.nanuid.domain.auth.persistence.repository.RefreshTokenRepository
+import nanucloud.nanuid.domain.auth.persistence.repository.RefreshTokenJpaRepository
 import nanucloud.nanuid.global.security.auth.AuthDetailsService
 import nanucloud.nanuid.global.security.jwt.dto.TokenResponse
 import org.springframework.stereotype.Component
@@ -30,7 +30,7 @@ import java.nio.charset.StandardCharsets
 class JwtProvider(
     private val jwtProperties: JwtProperties,
     private val authDetailsService: AuthDetailsService,
-    private val refreshTokenRepository: RefreshTokenRepository,
+    private val refreshTokenJpaRepository: RefreshTokenJpaRepository,
     private val refreshTokenMapper: RefreshTokenMapper,
     private val ipUtils: IpUtils
 ) {
@@ -58,7 +58,7 @@ class JwtProvider(
             authTime = authTime,
             ip = userIp,
         )
-        refreshTokenRepository.save(refreshTokenMapper.toEntity(refreshTokenEntity))
+        refreshTokenJpaRepository.save(refreshTokenMapper.toEntity(refreshTokenEntity))
 
         return TokenResponse(accessToken, refreshToken)
     }
@@ -123,7 +123,7 @@ class JwtProvider(
     }
 
     fun validateRefreshToken(refreshToken: String): Boolean {
-        val storedRefreshToken = refreshTokenRepository.findByRefreshToken(refreshToken)
+        val storedRefreshToken = refreshTokenJpaRepository.findByRefreshToken(refreshToken)
         return storedRefreshToken.isPresent && storedRefreshToken.get().refreshToken == refreshToken
     }
 
