@@ -8,5 +8,6 @@ data class Application(
     val name: String,
     val description: String,
     val isPublic: Boolean,
-    val applicationSecret: String
+    val applicationSecret: String,
+    val redirectUris: Set<String> = emptySet()
 )

@@ -25,6 +25,14 @@ class ApplicationJpaEntity(
     @Column(name = "application_secret", nullable = false, length = 255)
     val applicationSecret: String,
 
+    @ElementCollection
+    @CollectionTable(
+        name = "tbl_application_redirect_uri",
+        joinColumns = [JoinColumn(name = "application_id")]
+    )
+    @Column(name = "redirect_uri", nullable = true)
+    val redirectUris: Set<String> = emptySet(),
+
     @Version
     @Column(name = "version")
     val version: Long? = 0L

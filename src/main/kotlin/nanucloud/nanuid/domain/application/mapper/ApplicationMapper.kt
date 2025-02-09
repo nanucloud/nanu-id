@@ -16,7 +16,8 @@ class ApplicationMapper : CommonEntityMapper<ApplicationJpaEntity, Application> 
                 name = domain.name,
                 description = domain.description,
                 isPublic = domain.isPublic,
-                applicationSecret = domain.applicationSecret
+                applicationSecret = domain.applicationSecret,
+                redirectUris = domain.redirectUris
             )
         }
     }
@@ -29,7 +30,8 @@ class ApplicationMapper : CommonEntityMapper<ApplicationJpaEntity, Application> 
                 name = entity.name,
                 description = entity.description,
                 isPublic = entity.isPublic,
-                applicationSecret = entity.applicationSecret
+                applicationSecret = entity.applicationSecret,
+                redirectUris = entity.redirectUris
             )
         }
     }
