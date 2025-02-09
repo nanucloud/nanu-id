@@ -9,17 +9,16 @@ import nanucloud.nanuid.domain.user.exception.InvalidRecaptchaTokenException
 import nanucloud.nanuid.domain.user.exception.UserAccountLockedException
 import nanucloud.nanuid.domain.user.exception.UserAccountSuspendedException
 import nanucloud.nanuid.domain.user.exception.UserNotFoundException
-import nanucloud.nanuid.domain.user.persistence.repository.UserRepository
+import nanucloud.nanuid.domain.user.persistence.repository.UserJpaRepository
 import nanucloud.nanuid.global.security.jwt.JwtProvider
 import nanucloud.nanuid.global.security.jwt.dto.TokenResponse
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
 class UserPrimaryLoginService(
-    private val userRepository: UserRepository,
+    private val userJpaRepository: UserJpaRepository,
     private val passwordEncoder: PasswordEncoder,
     private val jwtProvider: JwtProvider,
     private val recaptchaClient: RecaptchaClient,
@@ -30,7 +29,7 @@ class UserPrimaryLoginService(
     fun execute(userLoginRequest: UserLoginRequest): TokenResponse {
         validateRecaptchaToken(userLoginRequest.recaptchaToken)
 
-        val user = userRepository.findByEmail(userLoginRequest.email).orElseThrow {
+        val user = userJpaRepository.findByEmail(userLoginRequest.email).orElseThrow {
             throw UserNotFoundException
         }
 

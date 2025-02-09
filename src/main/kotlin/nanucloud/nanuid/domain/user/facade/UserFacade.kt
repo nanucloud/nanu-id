@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor
 import nanucloud.nanuid.domain.user.domain.User
 import nanucloud.nanuid.domain.user.exception.UserNotFoundException
 import nanucloud.nanuid.domain.user.mapper.UserMapper
-import nanucloud.nanuid.domain.user.persistence.repository.UserRepository
+import nanucloud.nanuid.domain.user.persistence.repository.UserJpaRepository
 import org.example.pmanchu.global.security.auth.AuthDetails
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
@@ -13,11 +13,11 @@ import java.util.*
 @Component
 @RequiredArgsConstructor
 class UserFacade(
-    private val userRepository: UserRepository,
+    private val userJpaRepository: UserJpaRepository,
     private val userMapper: UserMapper
 ) {
     fun getUserById(userId: String): User {
-        val userEntity = userRepository.findById(UUID.fromString(userId))
+        val userEntity = userJpaRepository.findById(UUID.fromString(userId))
             .orElseThrow { UserNotFoundException }
 
         return userMapper.toDomain(userEntity)
@@ -42,7 +42,7 @@ class UserFacade(
 
     fun saveUser(user: User): User {
         val userEntity = userMapper.toEntity(user)
-        val savedEntity = userRepository.save(userEntity)
+        val savedEntity = userJpaRepository.save(userEntity)
         return userMapper.toDomain(savedEntity)
     }
 }

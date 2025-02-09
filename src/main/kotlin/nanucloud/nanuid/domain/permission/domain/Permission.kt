@@ -6,16 +6,8 @@ import jakarta.persistence.Id
 import jakarta.persistence.Table
 import java.util.UUID
 
-@Entity
-@Table(name = "tbl_permission")
 data class Permission(
-    @Id
-    @Column(name = "permission_id")
-    val permissionId: UUID,
-
-    @Column(name = "user_id")
-    val userId : String,
-
-    @Column(name = "application_id")
+    val permissionId: UUID? = null,
+    val userId: String,
     val applicationId: UUID
 )

@@ -1,7 +1,7 @@
 package nanucloud.nanuid.domain.user.service
 
 import jakarta.transaction.Transactional
-import nanucloud.nanuid.domain.user.persistence.repository.UserRepository
+import nanucloud.nanuid.domain.user.persistence.repository.UserJpaRepository
 import nanucloud.nanuid.domain.user.domain.User
 import nanucloud.nanuid.domain.user.presentation.dto.request.UserRegisterRequest
 import nanucloud.nanuid.domain.user.exception.UserAlreadyExistsException
@@ -12,14 +12,14 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserRegisterService @Autowired constructor(
-    private val userRepository: UserRepository,
+    private val userJpaRepository: UserJpaRepository,
     private val passwordEncoder: PasswordEncoder,
     private val userMapper: UserMapper
 ) {
 
     @Transactional
     fun execute(userSignUpRequest: UserRegisterRequest): User {
-        userRepository.findByEmail(userSignUpRequest.email).ifPresent {
+        userJpaRepository.findByEmail(userSignUpRequest.email).ifPresent {
             throw UserAlreadyExistsException
         }
 
@@ -33,7 +33,7 @@ class UserRegisterService @Autowired constructor(
             isEnabled = true,
             isAccountLocked = false
         )
-        val userEntity = userRepository.save(userMapper.toEntity(user))
+        val userEntity = userJpaRepository.save(userMapper.toEntity(user))
         return userMapper.toDomain(userEntity)
     }
 }
