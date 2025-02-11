@@ -19,7 +19,7 @@ spring:
     show-sql: true
 
   jwt:
-    secret: "xjS8V2k9P4m7tQ3wL6nR1cY5uA2zE8hB4dG9fM3vN7kX"
+    secret: ${JWT_SECRET}
     access-exp: 36000
     refresh-exp: 72000
     header: "Authorization"

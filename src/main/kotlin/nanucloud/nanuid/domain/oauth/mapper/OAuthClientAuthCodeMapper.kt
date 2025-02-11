@@ -12,7 +12,8 @@ class OAuthClientAuthCodeMapper {
                 authCodeId = authCodeId,
                 userId = userId,
                 applicationId = applicationId,
-                authScope = authScope
+                authScope = authScope,
+                deviceType = deviceType
             )
         }
     }
@@ -23,7 +24,8 @@ class OAuthClientAuthCodeMapper {
                 authCodeId = authCodeId,
                 userId = userId,
                 applicationId = applicationId,
-                authScope = authScope
+                authScope = authScope,
+                deviceType = deviceType
             )
         }
     }

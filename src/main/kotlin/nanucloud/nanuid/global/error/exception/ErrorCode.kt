@@ -15,5 +15,6 @@ enum class ErrorCode (
     NO_PERMISSION(403,"No permission to access"),
     INTERNAL_SERVER_ERROR(500,"Server error occurred"),
     APPLICATION_NOT_FOUND(404,"No application found"),
-    URI_NOT_ACCEPTED(418,"Uri is not authorized")
+    URI_NOT_ACCEPTED(418,"Uri is not authorized"),
+    SECRET_INVALID(403,"Client secret is invalid")
 }

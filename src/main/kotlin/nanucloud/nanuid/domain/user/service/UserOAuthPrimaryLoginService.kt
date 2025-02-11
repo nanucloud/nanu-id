@@ -3,6 +3,7 @@ package nanucloud.nanuid.domain.user.service
 import jakarta.transaction.Transactional
 import nanucloud.nanuid.domain.application.persistence.repository.ApplicationJpaRepository
 import nanucloud.nanuid.domain.auth.domain.AuthScope
+import nanucloud.nanuid.domain.auth.domain.DeviceType
 import nanucloud.nanuid.domain.oauth.domain.OAuthClientAuthCode
 import nanucloud.nanuid.domain.oauth.mapper.OAuthClientAuthCodeMapper
 import nanucloud.nanuid.domain.oauth.persistence.repository.OAuthClientAuthCodeRedisRepository
@@ -62,7 +63,8 @@ class UserOAuthPrimaryLoginService(
             authCodeId = authCode,
             userId = user.id.toString(),
             applicationId = userOAuthLoginRequest.applicationId,
-            authScope = userOAuthLoginRequest.authScope
+            authScope = userOAuthLoginRequest.authScope,
+            deviceType = userOAuthLoginRequest.deviceType ?: DeviceType.WEB_UNKNOWN
         )
 
         oAuthClientAuthCodeRedisRepository.save(

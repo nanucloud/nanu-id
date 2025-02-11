@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
@@ -35,7 +36,13 @@ class SecurityConfig(
 
             .authorizeHttpRequests { auth ->
                 auth
-                    .requestMatchers(HttpMethod.POST,"/auth/register", "/auth/login","/auth/reissue","/auth/o/login").permitAll()
+                    .requestMatchers(
+                        antMatcher(HttpMethod.POST, "/auth/register"),
+                        antMatcher(HttpMethod.POST, "/auth/login"),
+                        antMatcher(HttpMethod.POST, "/auth/reissue"),
+                        antMatcher(HttpMethod.POST, "/auth/o/login"),
+                        antMatcher(HttpMethod.POST, "/oauth/code"),
+                    ).permitAll()
                     .requestMatchers("/auth/update", "/auth/delete").authenticated()
                     .anyRequest().authenticated()
             }
@@ -49,6 +56,7 @@ class SecurityConfig(
         configuration.allowedOrigins = listOf("*")
         configuration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
         configuration.allowedHeaders = listOf("*")
+        configuration.exposedHeaders = listOf("*")
         configuration.allowCredentials = false
         configuration.maxAge = 3600L
 
