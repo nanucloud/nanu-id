@@ -13,4 +13,6 @@ interface RefreshTokenJpaRepository:CrudRepository<RefreshTokenJpaEntity,String>
 
     @Query("SELECT r FROM RefreshTokenJpaEntity r WHERE r.userId = :userId ORDER BY r.authTime DESC")
     fun findByUserId(@Param("userId") userId: String, pageable: Pageable): Page<RefreshTokenJpaEntity>
+
+    fun deleteByUserId(userId: String)
 }
