@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
 import java.util.*
 
-interface RefreshTokenJpaRepository:CrudRepository<RefreshTokenJpaEntity,String> {
+interface RefreshTokenJpaRepository:CrudRepository<RefreshTokenJpaEntity,UUID> {
     fun findByRefreshToken(token: String): Optional<RefreshTokenJpaEntity>
 
     @Query("SELECT r FROM RefreshTokenJpaEntity r WHERE r.userId = :userId ORDER BY r.authTime DESC")

@@ -5,11 +5,12 @@ import nanucloud.nanuid.domain.auth.service.AuthDeleteService
 import nanucloud.nanuid.domain.auth.service.AuthReadService
 import nanucloud.nanuid.global.security.auth.RequiredAuthScope
 import org.springframework.data.domain.Page
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/token")
-class AuthController (
+class AuthController(
     private val authReadService: AuthReadService,
     private val authDeleteService: AuthDeleteService
 ) {
@@ -23,7 +24,8 @@ class AuthController (
 
     @RequiredAuthScope(["FULL_ACCESS"])
     @DeleteMapping("/delete/{tokenId}")
-    fun deleteToken(@PathVariable tokenId:String) {
+    fun deleteToken(@PathVariable tokenId: String): HttpStatus {
         authDeleteService.execute(tokenId)
+        return HttpStatus.OK
     }
 }
