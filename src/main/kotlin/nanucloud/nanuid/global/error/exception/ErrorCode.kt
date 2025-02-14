@@ -4,7 +4,7 @@ enum class ErrorCode (
     val httpStatus: Int,
     val message : String
 ) {
-    BAD_REQUEST(400,"Bad request"),
+    NOT_FOUND(404,"Not found"),
     INVALID_TOKEN(401,"Invalid token"),
     EXPIRED_TOKEN(401,"Expired token"),
     INVALID_RECAPTCHA_TOKEN(401,"Invalid recaptcha token"),

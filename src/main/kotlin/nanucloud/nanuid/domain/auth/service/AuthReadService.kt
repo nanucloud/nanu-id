@@ -1,13 +1,12 @@
 package nanucloud.nanuid.domain.auth.service
 
+import nanucloud.nanuid.domain.auth.exception.NoPermissionException
+import nanucloud.nanuid.domain.auth.exception.NotFoundException
 import nanucloud.nanuid.domain.auth.presentation.response.RefreshTokenResponse
 import nanucloud.nanuid.domain.auth.persistence.repository.RefreshTokenJpaRepository
 import nanucloud.nanuid.domain.user.facade.UserFacade
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageImpl
-import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 class AuthReadService(
@@ -15,24 +14,23 @@ class AuthReadService(
     private val userFacade: UserFacade
 ) {
 
-    fun execute(page: Int): Page<RefreshTokenResponse> {
+    fun execute(tokenId: String): RefreshTokenResponse {
         val userId = userFacade.getUserId()
-        val pageable: Pageable = PageRequest.of(page, 5)
-        val userRefreshTokens = refreshTokenJpaRepository.findByUserId(userId, pageable)
 
-        val responses = userRefreshTokens.content.flatMap { token ->
-            listOf(
-                RefreshTokenResponse(
-                    refreshTokenId = token.id.toString(),
-                    applicationId = token.applicationId,
-                    deviceType = token.deviceType,
-                    authTime = token.authTime,
-                    ip = token.ip,
-                    applicationName = token.applicationName
-                )
-            )
+        val token = refreshTokenJpaRepository.findById(UUID.fromString(tokenId))
+            .orElseThrow { NotFoundException }
+
+        if (token.userId != userId) {
+            throw NoPermissionException
         }
 
-        return PageImpl(responses, pageable, userRefreshTokens.totalElements)
+        return RefreshTokenResponse(
+            refreshTokenId = token.id.toString(),
+            applicationId = token.applicationId,
+            deviceType = token.deviceType,
+            authTime = token.authTime,
+            ip = token.ip,
+            applicationName = token.applicationName
+        )
     }
 }
