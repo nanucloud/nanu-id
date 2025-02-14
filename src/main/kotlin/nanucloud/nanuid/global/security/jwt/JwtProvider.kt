@@ -43,11 +43,16 @@ class JwtProvider(
     }
 
     @Transactional
-    fun generateToken(userId: String, applicationId: String,applicationName: String, deviceType: DeviceType, authScope:  Set<AuthScope>): TokenResponse {
+    fun generateToken(userId: String, applicationId: String, applicationName: String, deviceType: DeviceType, authScope: Set<AuthScope>, userIp: String? = null): TokenResponse {
         val accessToken = generateJwtToken(userId, ACCESS_KEY, jwtProperties.accessExp, authScope)
         val refreshToken = generateJwtToken(userId, REFRESH_KEY, jwtProperties.refreshExp, authScope)
         val authTime = LocalDateTime.now()
-        val userIp = ipUtils.getClientIp(request)
+
+        val userConnectIp = if (!userIp.isNullOrEmpty()) {
+            userIp
+        } else {
+            ipUtils.getClientIp(request)
+        }
 
         val refreshTokenEntity = RefreshToken(
             refreshToken = refreshToken,
@@ -56,7 +61,7 @@ class JwtProvider(
             applicationName = applicationName,
             deviceType = deviceType,
             authTime = authTime,
-            ip = userIp,
+            ip = userConnectIp
         )
         refreshTokenJpaRepository.save(refreshTokenMapper.toEntity(refreshTokenEntity))
 
@@ -154,7 +159,7 @@ class JwtProvider(
         return AuthScope.values().filter { scope -> (bitmask and scope.bit) != 0 }.toSet()
     }
 
-    fun getuserIdFromToken(token: String): String {
+    fun getUserIdFromToken(token: String): String {
         val body = getJws(token).body
         return body.subject
     }

@@ -18,7 +18,7 @@ class UserReissueService(
         if (!jwtProvider.validateRefreshToken(refreshToken)) {
             throw ExpiredTokenException
         }
-        val accountId = jwtProvider.getuserIdFromToken(refreshToken)
+        val accountId = jwtProvider.getUserIdFromToken(refreshToken)
         val authScopes = jwtProvider.getAuthScopeFromToken(refreshToken)
         val accessToken = jwtProvider.generateJwtToken(accountId, JwtProvider.ACCESS_KEY, jwtProperties.accessExp, authScopes)
 

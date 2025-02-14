@@ -17,5 +17,6 @@ class OAuthClientAuthCodeRedisEntity(
 
     val applicationId : String,
     val authScope: Int,
-    val deviceType: DeviceType
+    val deviceType: DeviceType,
+    val userIp: String,
 )

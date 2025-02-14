@@ -1,5 +1,6 @@
 package nanucloud.nanuid.domain.user.service
 
+import jakarta.servlet.http.HttpServletRequest
 import jakarta.transaction.Transactional
 import nanucloud.nanuid.domain.application.persistence.repository.ApplicationJpaRepository
 import nanucloud.nanuid.domain.auth.domain.AuthScope
@@ -13,6 +14,7 @@ import nanucloud.nanuid.domain.user.exception.*
 import nanucloud.nanuid.domain.user.persistence.repository.UserJpaRepository
 import nanucloud.nanuid.domain.user.presentation.dto.request.UserOAuthLoginRequest
 import nanucloud.nanuid.domain.user.presentation.dto.response.UserOAuthLoginResponse
+import nanucloud.nanuid.global.base.IpUtils
 import nanucloud.nanuid.global.security.jwt.JwtProvider
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -28,6 +30,8 @@ class UserOAuthPrimaryLoginService(
     private val applicationJpaRepository: ApplicationJpaRepository,
     private val permissionJpaRepository: PermissionJpaRepository,
     private val oAuthClientAuthCodeRedisRepository: OAuthClientAuthCodeRedisRepository,
+    private val ipUtils: IpUtils,
+    private val request: HttpServletRequest,
     @Value("\${recaptcha.secret-key}") private val recaptchaSecretKey: String
 ) {
     @Transactional
@@ -64,7 +68,8 @@ class UserOAuthPrimaryLoginService(
             userId = user.id.toString(),
             applicationId = userOAuthLoginRequest.applicationId,
             authScope = userOAuthLoginRequest.authScope,
-            deviceType = userOAuthLoginRequest.deviceType ?: DeviceType.WEB_UNKNOWN
+            deviceType = userOAuthLoginRequest.deviceType ?: DeviceType.WEB_UNKNOWN,
+            userIp = ipUtils.getClientIp(request)
         )
 
         oAuthClientAuthCodeRedisRepository.save(

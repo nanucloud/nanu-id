@@ -49,7 +49,8 @@ class OAuthCodeIssueService(
             authCodeDomain.applicationId,
             application.name,
             authCodeDomain.deviceType,
-            authScopes
+            authScopes,
+            authCodeDomain.userIp
         )
     }
 }

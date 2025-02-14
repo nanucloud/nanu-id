@@ -12,5 +12,6 @@ data class OAuthClientAuthCode(
     val userId: String,
     val applicationId: String,
     val authScope: Int,
-    val deviceType: DeviceType
+    val deviceType: DeviceType,
+    val userIp : String
 )
